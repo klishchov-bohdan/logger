@@ -1,2 +1,2 @@
 run:
-	go run test/main.go
+	go run main/main.go

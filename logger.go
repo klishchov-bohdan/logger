@@ -1,8 +1,8 @@
 package logger
 
 type Logger interface {
-	Info() error
-	Warning() error
-	Error() error
-	Debug() error
+	Info(str string)
+	Warning(str string)
+	Error(str string)
+	Debug(str string)
 }

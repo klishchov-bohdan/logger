@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"log"
 	"os"
 	"time"
 )
@@ -37,37 +38,33 @@ func (ltf *LogToFile) CloseFile() error {
 }
 
 // Info write the info log to the file
-func (ltf *LogToFile) Info(msg string) error {
+func (ltf *LogToFile) Info(msg string) {
 	_, err := ltf.File.WriteString(time.Now().Format("01-02-2006 15:04:05") + " INFO: " + msg + "\n")
 	if err != nil {
-		return err
+		log.Println(err)
 	}
-	return nil
 }
 
 // Warning write the warning log to the file
-func (ltf *LogToFile) Warning(msg string) error {
+func (ltf *LogToFile) Warning(msg string) {
 	_, err := ltf.File.WriteString(time.Now().Format("01-02-2006 15:04:05") + " WARNING: " + msg + "\n")
 	if err != nil {
-		return err
+		log.Println(err)
 	}
-	return nil
 }
 
 // Error write the error log to file
-func (ltf *LogToFile) Error(msg string) error {
+func (ltf *LogToFile) Error(msg string) {
 	_, err := ltf.File.WriteString(time.Now().Format("01-02-2006 15:04:05") + " ERROR: " + msg + "\n")
 	if err != nil {
-		return err
+		log.Println(err)
 	}
-	return nil
 }
 
 // Debug write the debug log to file
-func (ltf *LogToFile) Debug(msg string) error {
+func (ltf *LogToFile) Debug(msg string) {
 	_, err := ltf.File.WriteString(time.Now().Format("01-02-2006 15:04:05") + " DEBUG: " + msg + "\n")
 	if err != nil {
-		return err
+		log.Println(err)
 	}
-	return nil
 }
