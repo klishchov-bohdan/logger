@@ -6,22 +6,22 @@ import (
 	"time"
 )
 
-type LogToFile struct {
+type FileLogger struct {
 	File *os.File
 }
 
-func CreateLogToFile(filePath string) (*LogToFile, error) {
+func NewFileLogger(filePath string) (*FileLogger, error) {
 	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		return nil, err
 	}
-	return &LogToFile{
+	return &FileLogger{
 		File: file,
 	}, nil
 }
 
-func (ltf *LogToFile) ClearLogs() error {
-	err := ltf.File.Truncate(0)
+func (fl *FileLogger) ClearLogs() error {
+	err := fl.File.Truncate(0)
 	if err != nil {
 		return err
 	}
@@ -29,8 +29,8 @@ func (ltf *LogToFile) ClearLogs() error {
 }
 
 //CloseFile closes log file
-func (ltf *LogToFile) CloseFile() error {
-	err := ltf.File.Close()
+func (fl *FileLogger) CloseFile() error {
+	err := fl.File.Close()
 	if err != nil {
 		return err
 	}
@@ -38,32 +38,32 @@ func (ltf *LogToFile) CloseFile() error {
 }
 
 // Info write the info log to the file
-func (ltf *LogToFile) Info(msg string) {
-	_, err := ltf.File.WriteString(time.Now().Format("01-02-2006 15:04:05") + " INFO: " + msg + "\n")
+func (fl *FileLogger) Info(msg string) {
+	_, err := fl.File.WriteString(time.Now().Format("01-02-2006 15:04:05") + " INFO: " + msg + "\n")
 	if err != nil {
 		log.Println(err)
 	}
 }
 
 // Warning write the warning log to the file
-func (ltf *LogToFile) Warning(msg string) {
-	_, err := ltf.File.WriteString(time.Now().Format("01-02-2006 15:04:05") + " WARNING: " + msg + "\n")
+func (fl *FileLogger) Warning(msg string) {
+	_, err := fl.File.WriteString(time.Now().Format("01-02-2006 15:04:05") + " WARNING: " + msg + "\n")
 	if err != nil {
 		log.Println(err)
 	}
 }
 
 // Error write the error log to file
-func (ltf *LogToFile) Error(msg string) {
-	_, err := ltf.File.WriteString(time.Now().Format("01-02-2006 15:04:05") + " ERROR: " + msg + "\n")
+func (fl *FileLogger) Error(msg string) {
+	_, err := fl.File.WriteString(time.Now().Format("01-02-2006 15:04:05") + " ERROR: " + msg + "\n")
 	if err != nil {
 		log.Println(err)
 	}
 }
 
 // Debug write the debug log to file
-func (ltf *LogToFile) Debug(msg string) {
-	_, err := ltf.File.WriteString(time.Now().Format("01-02-2006 15:04:05") + " DEBUG: " + msg + "\n")
+func (fl *FileLogger) Debug(msg string) {
+	_, err := fl.File.WriteString(time.Now().Format("01-02-2006 15:04:05") + " DEBUG: " + msg + "\n")
 	if err != nil {
 		log.Println(err)
 	}

@@ -6,24 +6,25 @@ import (
 )
 
 func main() {
-	fileLogger, err := logger.CreateLogToFile("logs/logs.txt")
+	fileLogger, err := logger.NewFileLogger("logs/logs.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer func(fileLogger *logger.FileLogger) {
+		err := fileLogger.CloseFile()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}(fileLogger)
 	err = fileLogger.ClearLogs()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	consoleLogger := &logger.LogToConsole{}
+	consoleLogger := logger.NewConsoleLogger()
 
 	logTest(fileLogger)
 	logTest(consoleLogger)
-
-	err = fileLogger.CloseFile()
-	if err != nil {
-		log.Fatal(err)
-	}
 }
 
 func logTest(lgr logger.Logger) {
